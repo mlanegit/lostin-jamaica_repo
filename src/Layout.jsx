@@ -1,52 +1,63 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from './utils';
-import { MapPin } from 'lucide-react';
+import { Plane } from 'lucide-react';
 
 export default function Layout({ children, currentPageName }) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-900 via-emerald-800 to-green-900">
+    <div className="min-h-screen bg-black">
       {/* Header/Navigation */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-black/60 to-transparent backdrop-blur-sm">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-red-600/30">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           {/* Logo */}
-          <Link to={createPageUrl('Home')} className="flex items-center gap-2">
-            <div className="bg-white rounded-full p-1.5">
-              <MapPin className="w-5 h-5 text-red-600" />
+          <Link to={createPageUrl('Home')} className="flex items-center gap-3">
+            <div className="bg-red-600 rounded p-1.5">
+              <Plane className="w-5 h-5 text-white" />
             </div>
-            <span className="text-white text-xl font-bold">Lost in Jamaica</span>
+            <div>
+              <div className="text-white text-xl font-black tracking-tight">URBAN ESCAPES</div>
+              <div className="text-red-500 text-[10px] font-bold tracking-widest">NYC × ATL</div>
+            </div>
           </Link>
 
           {/* Navigation */}
           <nav className="hidden md:flex items-center gap-8">
             <Link 
               to={createPageUrl('Home')} 
-              className={`text-sm font-medium transition-colors ${
-                currentPageName === 'Home' ? 'text-yellow-400' : 'text-white hover:text-yellow-400'
+              className={`text-sm font-bold tracking-wide transition-colors uppercase ${
+                currentPageName === 'Home' ? 'text-red-500' : 'text-white hover:text-red-500'
               }`}
             >
               Home
             </Link>
             <Link 
-              to={createPageUrl('Experience')} 
-              className={`text-sm font-medium transition-colors ${
-                currentPageName === 'Experience' ? 'text-yellow-400' : 'text-white hover:text-yellow-400'
+              to={createPageUrl('Packages')} 
+              className={`text-sm font-bold tracking-wide transition-colors uppercase ${
+                currentPageName === 'Packages' ? 'text-red-500' : 'text-white hover:text-red-500'
               }`}
             >
-              Experience
+              Packages
+            </Link>
+            <Link 
+              to={createPageUrl('Events')} 
+              className={`text-sm font-bold tracking-wide transition-colors uppercase ${
+                currentPageName === 'Events' ? 'text-red-500' : 'text-white hover:text-red-500'
+              }`}
+            >
+              Events
             </Link>
             <Link 
               to={createPageUrl('Gallery')} 
-              className={`text-sm font-medium transition-colors ${
-                currentPageName === 'Gallery' ? 'text-yellow-400' : 'text-white hover:text-yellow-400'
+              className={`text-sm font-bold tracking-wide transition-colors uppercase ${
+                currentPageName === 'Gallery' ? 'text-red-500' : 'text-white hover:text-red-500'
               }`}
             >
               Gallery
             </Link>
             <Link 
               to={createPageUrl('Contact')} 
-              className={`text-sm font-medium transition-colors ${
-                currentPageName === 'Contact' ? 'text-yellow-400' : 'text-white hover:text-yellow-400'
+              className={`text-sm font-bold tracking-wide transition-colors uppercase ${
+                currentPageName === 'Contact' ? 'text-red-500' : 'text-white hover:text-red-500'
               }`}
             >
               Contact
@@ -56,7 +67,7 @@ export default function Layout({ children, currentPageName }) {
           {/* Book Now Button */}
           <Link 
             to={createPageUrl('Contact')}
-            className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-6 py-2 rounded-lg transition-all shadow-lg hover:shadow-xl"
+            className="bg-red-600 hover:bg-red-700 text-white font-black px-8 py-3 rounded transition-all shadow-lg hover:shadow-red-600/50 uppercase tracking-wide text-sm"
           >
             Book Now
           </Link>

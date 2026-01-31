@@ -1,342 +1,182 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
-import { Calendar, MapPin, Users, Music, Palmtree, Camera, UtensilsCrossed } from 'lucide-react';
+import { Calendar, Users, Music, Waves, Gift, Bus, Palmtree, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
+import { motion } from 'framer-motion';
 
 export default function Home() {
+  const highlights = [
+    { icon: Calendar, text: '5 Days / 4 Nights' },
+    { icon: Music, text: 'Celebrity DJs & Hosts' },
+    { icon: Waves, text: 'Boat Day Excursion' },
+    { icon: Gift, text: '$400 Amenities Credit' },
+    { icon: Bus, text: 'Event Transportation' },
+    { icon: Star, text: 'VIP Wellness Sessions' },
+  ];
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-black">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center px-6 py-20">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center w-full">
-          {/* Left Content */}
-          <div className="text-white space-y-6">
-            <h1 className="text-6xl md:text-7xl font-bold leading-tight">
-              Lost in<br />Jamaica
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1540541338287-41700207dee6?w=1920&h=1080&fit=crop" 
+            alt="Luxury resort beach"
+            className="w-full h-full object-cover opacity-40"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-red-600/30 via-black/50 to-black"></div>
+        </div>
+
+        {/* Hero Content */}
+        <div className="relative z-10 text-center px-6 py-32">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="text-7xl md:text-9xl font-black text-white mb-4 tracking-tighter">
+              URBAN<br />
+              <span className="text-red-600">ESCAPES</span>
             </h1>
-            <p className="text-xl text-green-100 leading-relaxed">
-              Join us on this beautiful island filled with breathtaking mountains, waterfalls, illustrious beaches and culinary delights
+            <p className="text-2xl md:text-3xl font-bold text-white mb-3 tracking-wide">
+              RETREAT 2026
             </p>
-            
-            {/* Info Pills */}
-            <div className="flex flex-wrap gap-3 pt-4">
-              <div className="flex items-center gap-2 bg-green-700/40 backdrop-blur-sm border border-green-500/30 rounded-full px-4 py-2">
-                <Calendar className="w-4 h-4 text-yellow-400" />
-                <span className="text-sm font-medium">4 or 5 Days</span>
-              </div>
-              <div className="flex items-center gap-2 bg-green-700/40 backdrop-blur-sm border border-green-500/30 rounded-full px-4 py-2">
-                <MapPin className="w-4 h-4 text-yellow-400" />
-                <span className="text-sm font-medium">St. Lucia</span>
-              </div>
-              <div className="flex items-center gap-2 bg-green-700/40 backdrop-blur-sm border border-green-500/30 rounded-full px-4 py-2">
-                <Users className="w-4 h-4 text-yellow-400" />
-                <span className="text-sm font-medium">Limited Spots</span>
-              </div>
-            </div>
+            <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+              Where NYC meets ATL in Paradise
+            </p>
+            <Link to={createPageUrl('Contact')}>
+              <Button className="bg-red-600 hover:bg-red-700 text-white font-black px-12 py-7 text-xl rounded uppercase tracking-wider shadow-2xl hover:shadow-red-600/50 transition-all">
+                Register Now
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-wrap gap-4 pt-4">
-              <Link to={createPageUrl('Contact')}>
-                <Button className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-8 py-6 text-lg rounded-lg shadow-xl hover:shadow-2xl transition-all">
-                  Reserve Your Spot
-                </Button>
-              </Link>
-              <Link to={createPageUrl('Gallery')}>
-                <Button variant="outline" className="border-2 border-green-400 text-white hover:bg-green-700/30 font-bold px-8 py-6 text-lg rounded-lg backdrop-blur-sm">
-                  View Gallery
-                </Button>
-              </Link>
-            </div>
-          </div>
-
-          {/* Right Image */}
-          <div className="relative">
-            <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-yellow-400">
-              <img 
-                src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop" 
-                alt="Beautiful beach sunset in Jamaica"
-                className="w-full h-[500px] object-cover"
-              />
-            </div>
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center pt-2">
+            <div className="w-1.5 h-3 bg-white/50 rounded-full"></div>
           </div>
         </div>
       </section>
 
-      {/* Features Grid */}
-      <section className="px-6 py-16 bg-gradient-to-b from-transparent to-green-950/50">
+      {/* Quick Nav Bar */}
+      <section className="sticky top-16 z-40 bg-red-600 border-y border-red-700">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex justify-center gap-8 flex-wrap">
+            <a href="#whats-included" className="text-white font-bold uppercase text-sm hover:text-black transition-colors">
+              What's Included
+            </a>
+            <a href="#packages" className="text-white font-bold uppercase text-sm hover:text-black transition-colors">
+              Packages
+            </a>
+            <a href="#events" className="text-white font-bold uppercase text-sm hover:text-black transition-colors">
+              Events
+            </a>
+            <a href="#location" className="text-white font-bold uppercase text-sm hover:text-black transition-colors">
+              Location
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* What's Included Section */}
+      <section id="whats-included" className="px-6 py-20 bg-gradient-to-b from-black to-zinc-900">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-5xl md:text-6xl font-black text-white text-center mb-16 tracking-tight">
+            WHAT'S <span className="text-red-600">INCLUDED</span>
+          </h2>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            {highlights.map((item, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+              >
+                <Card className="bg-zinc-900 border-red-600/30 hover:border-red-600 transition-all group">
+                  <CardContent className="pt-8 pb-6 text-center">
+                    <div className="bg-red-600 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                      <item.icon className="w-8 h-8 text-white" />
+                    </div>
+                    <p className="text-white font-bold text-lg">{item.text}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="mt-12 grid md:grid-cols-2 gap-4 max-w-4xl mx-auto">
+            <Card className="bg-red-600 border-red-700">
+              <CardContent className="pt-6">
+                <h3 className="text-white font-black text-xl mb-3 uppercase">All-Inclusive</h3>
+                <ul className="text-white space-y-2">
+                  <li>✓ Unlimited food & drinks at resort</li>
+                  <li>✓ 5 days of curated events</li>
+                  <li>✓ Wellness & fitness sessions</li>
+                  <li>✓ Gift bags & welcome package</li>
+                </ul>
+              </CardContent>
+            </Card>
+            <Card className="bg-red-600 border-red-700">
+              <CardContent className="pt-6">
+                <h3 className="text-white font-black text-xl mb-3 uppercase">VIP Experience</h3>
+                <ul className="text-white space-y-2">
+                  <li>✓ Celebrity DJs & special guests</li>
+                  <li>✓ Sightseeing & excursions</li>
+                  <li>✓ Private boat day experience</li>
+                  <li>✓ Transportation to all events</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Video/Image Showcase */}
+      <section className="px-6 py-20 bg-zinc-900">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-6">
-            {/* Breathtaking Mountains */}
-            <Card className="bg-gradient-to-br from-green-600 to-green-700 border-green-500/50 shadow-xl hover:shadow-2xl transition-all">
-              <CardHeader>
-                <div className="bg-yellow-400 w-14 h-14 rounded-2xl flex items-center justify-center mb-4">
-                  <Music className="w-7 h-7 text-green-900" />
-                </div>
-                <CardTitle className="text-white text-2xl">Breathtaking Mountains</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-green-100">Explore stunning volcanic peaks and lush landscapes</p>
-              </CardContent>
-            </Card>
-
-            {/* Pristine Beaches */}
-            <Card className="bg-gradient-to-br from-green-600 to-green-700 border-green-500/50 shadow-xl hover:shadow-2xl transition-all">
-              <CardHeader>
-                <div className="bg-yellow-400 w-14 h-14 rounded-2xl flex items-center justify-center mb-4">
-                  <Palmtree className="w-7 h-7 text-green-900" />
-                </div>
-                <CardTitle className="text-white text-2xl">Pristine Beaches</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-green-100">Relax on illustrious shores of St. Lucia</p>
-              </CardContent>
-            </Card>
-
-            {/* Culinary Delights */}
-            <Card className="bg-gradient-to-br from-green-600 to-green-700 border-green-500/50 shadow-xl hover:shadow-2xl transition-all">
-              <CardHeader>
-                <div className="bg-yellow-400 w-14 h-14 rounded-2xl flex items-center justify-center mb-4">
-                  <Camera className="w-7 h-7 text-green-900" />
-                </div>
-                <CardTitle className="text-white text-2xl">Culinary Delights</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-green-100">Experience world-class dining and local cuisine</p>
-              </CardContent>
-            </Card>
-
-            {/* Community Vibes */}
-            <Card className="bg-gradient-to-br from-green-600 to-green-700 border-green-500/50 shadow-xl hover:shadow-2xl transition-all">
-              <CardHeader>
-                <div className="bg-yellow-400 w-14 h-14 rounded-2xl flex items-center justify-center mb-4">
-                  <Users className="w-7 h-7 text-green-900" />
-                </div>
-                <CardTitle className="text-white text-2xl">Community Vibes</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-green-100">Connect with like-minded travelers and adventurers</p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section className="px-6 py-20">
-        <div className="max-w-4xl mx-auto text-center text-white space-y-6">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">About This Trip</h2>
-          <div className="space-y-4 text-lg text-green-100 leading-relaxed">
-            <p>
-              Last year we found ourselves "Lost In" A. This year we hope you are ready for the sequel. 
-              This year we find ourselves getting "Lost IN" St. Lucia!
-            </p>
-            <p>
-              We invite you to join us as we get "Lost in Jamaica" - a beautiful island filled with 
-              breathtaking mountains, waterfalls, illustrious beaches and culinary delights.
-            </p>
-            <p>
-              This year we decided to do something new. We heard your requests, so we're adding a night! 
-              You now have the option of either <strong className="text-yellow-400">4 Days and 3 Nights</strong> or{' '}
-              <strong className="text-yellow-400">5 Days and 4 Nights</strong>. We also have an amazing optional excursion day lined up!
-            </p>
-            <p>
-              Take a boat ride with astonishing views of the Piton Mountains, walk the beautiful waterfalls, 
-              take a world-famous mud bath and soak in the hot springs.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Resort Section */}
-      <section className="px-6 py-20 bg-gradient-to-b from-green-950/50 to-transparent">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center text-white mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Your Home Away From Home</h2>
-            <p className="text-2xl text-yellow-400 font-semibold mb-2">Royalton Negril - The Best of Both Worlds!</p>
-            <p className="text-lg text-green-100 max-w-3xl mx-auto">
-              Enjoy exclusive Adults-Only amenities while having full access to nearby family-friendly resorts, 
-              combining relaxation and entertainment for a unique getaway. Why settle for one vibe when you can have both!
-            </p>
-          </div>
-
-          {/* Resort Images */}
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
-            <div className="rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative rounded-xl overflow-hidden group">
               <img 
-                src="https://images.unsplash.com/photo-1540541338287-41700207dee6?w=500&h=300&fit=crop" 
-                alt="Resort beachfront"
-                className="w-full h-64 object-cover"
+                src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&h=600&fit=crop" 
+                alt="Resort pool party"
+                className="w-full h-96 object-cover group-hover:scale-105 transition-transform duration-500"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-6">
+                <h3 className="text-white font-black text-2xl">POOL PARTIES</h3>
+              </div>
             </div>
-            <div className="rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative rounded-xl overflow-hidden group">
               <img 
-                src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=500&h=300&fit=crop" 
-                alt="Resort pool"
-                className="w-full h-64 object-cover"
+                src="https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=800&h=600&fit=crop" 
+                alt="Beach vibes"
+                className="w-full h-96 object-cover group-hover:scale-105 transition-transform duration-500"
               />
-            </div>
-            <div className="rounded-2xl overflow-hidden shadow-2xl">
-              <img 
-                src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&h=300&fit=crop" 
-                alt="Fine dining"
-                className="w-full h-64 object-cover"
-              />
-            </div>
-          </div>
-
-          {/* Amenities Grid */}
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="bg-white/10 backdrop-blur-md border-white/20 text-white">
-              <CardContent className="pt-6">
-                <h3 className="font-bold text-lg mb-2">Gourmet Dining</h3>
-                <p className="text-sm text-green-100">Multiple à la carte restaurants featuring international and Caribbean cuisine</p>
-              </CardContent>
-            </Card>
-            <Card className="bg-white/10 backdrop-blur-md border-white/20 text-white">
-              <CardContent className="pt-6">
-                <h3 className="font-bold text-lg mb-2">Swim-Up Bar</h3>
-                <p className="text-sm text-green-100">Refreshing cocktails and drinks while enjoying the pool</p>
-              </CardContent>
-            </Card>
-            <Card className="bg-white/10 backdrop-blur-md border-white/20 text-white">
-              <CardContent className="pt-6">
-                <h3 className="font-bold text-lg mb-2">Water Sports</h3>
-                <p className="text-sm text-green-100">Snorkeling, paddleboarding, kayaking, and more</p>
-              </CardContent>
-            </Card>
-            <Card className="bg-white/10 backdrop-blur-md border-white/20 text-white">
-              <CardContent className="pt-6">
-                <h3 className="font-bold text-lg mb-2">Spa & Wellness</h3>
-                <p className="text-sm text-green-100">Full-service spa with massages and relaxation treatments</p>
-              </CardContent>
-            </Card>
-            <Card className="bg-white/10 backdrop-blur-md border-white/20 text-white">
-              <CardContent className="pt-6">
-                <h3 className="font-bold text-lg mb-2">Nightly Entertainment</h3>
-                <p className="text-sm text-green-100">Live music, shows, and themed events throughout your stay</p>
-              </CardContent>
-            </Card>
-            <Card className="bg-white/10 backdrop-blur-md border-white/20 text-white">
-              <CardContent className="pt-6">
-                <h3 className="font-bold text-lg mb-2">Beachfront Access</h3>
-                <p className="text-sm text-green-100">Private beach with pristine sand and crystal-clear waters</p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* What's Included/Not Included */}
-      <section className="px-6 py-20">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
-          <Card className="bg-white/10 backdrop-blur-md border-white/20">
-            <CardHeader>
-              <CardTitle className="text-white text-2xl">What's Included</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4 text-white">
-              <div>
-                <h4 className="font-semibold text-lg text-yellow-400">Airport Shuttle</h4>
-                <p className="text-green-100">Transportation to and from the airport</p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-lg text-yellow-400">All Weekend Events</h4>
-                <p className="text-green-100">Guests entry to all weekend events</p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-lg text-yellow-400">All-Inclusive Accommodations</h4>
-                <p className="text-green-100">Room packages with full amenities</p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white/10 backdrop-blur-md border-white/20">
-            <CardHeader>
-              <CardTitle className="text-white text-2xl">What's Not Included</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4 text-white">
-              <div>
-                <h4 className="font-semibold text-lg text-yellow-400">Flights</h4>
-                <p className="text-green-100">Flights not included</p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-lg text-yellow-400">Travel Insurance</h4>
-                <p className="text-green-100">Travel insurance not included</p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-lg text-yellow-400">Optional Excursions</h4>
-                <p className="text-green-100">Optional group excursion available at additional cost</p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      {/* What Awaits Section */}
-      <section className="px-6 py-20 bg-gradient-to-b from-green-950/50 to-transparent">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-4">What Awaits You</h2>
-          <p className="text-xl text-green-100 text-center mb-12">
-            Unforgettable experiences and adventures await on this beautiful Caribbean island
-          </p>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="space-y-4">
-              <div className="rounded-2xl overflow-hidden shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1580721958134-2bfb8c6bb8da?w=500&h=300&fit=crop" 
-                  alt="Waterfalls"
-                  className="w-full h-64 object-cover"
-                />
-              </div>
-              <div className="text-white">
-                <h3 className="text-2xl font-bold mb-2">Waterfalls & Mud Baths</h3>
-                <p className="text-green-100">Walk beautiful waterfalls, take a world-famous mud bath, and soak in hot springs</p>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <div className="rounded-2xl overflow-hidden shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=500&h=300&fit=crop" 
-                  alt="Boat ride"
-                  className="w-full h-64 object-cover"
-                />
-              </div>
-              <div className="text-white">
-                <h3 className="text-2xl font-bold mb-2">Scenic Boat Rides</h3>
-                <p className="text-green-100">Experience astonishing views of the Piton Mountains from the water</p>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <div className="rounded-2xl overflow-hidden shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=500&h=300&fit=crop" 
-                  alt="Resort"
-                  className="w-full h-64 object-cover"
-                />
-              </div>
-              <div className="text-white">
-                <h3 className="text-2xl font-bold mb-2">Adults-Only Resort</h3>
-                <p className="text-green-100">Exclusive amenities with access to nearby family-friendly resorts for the best of both worlds</p>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-6">
+                <h3 className="text-white font-black text-2xl">BEACH SESSIONS</h3>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Final CTA Section */}
-      <section className="px-6 py-20">
-        <div className="max-w-4xl mx-auto text-center text-white space-y-6">
-          <h2 className="text-4xl md:text-5xl font-bold">Ready to Get Lost?</h2>
-          <p className="text-xl text-green-100">
-            Spaces are limited for this exclusive retreat. Secure your spot today and prepare for the adventure of a lifetime.
+      {/* CTA Section */}
+      <section className="px-6 py-20 bg-gradient-to-b from-zinc-900 to-black">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-5xl md:text-6xl font-black text-white mb-6 tracking-tight">
+            READY TO <span className="text-red-600">ESCAPE?</span>
+          </h2>
+          <p className="text-xl text-gray-300 mb-8">
+            Limited spots available. Lock in your spot before it's too late.
           </p>
           <Link to={createPageUrl('Contact')}>
-            <Button className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-10 py-6 text-xl rounded-lg shadow-xl hover:shadow-2xl transition-all mt-6">
-              Book Your Experience
+            <Button className="bg-red-600 hover:bg-red-700 text-white font-black px-16 py-8 text-2xl rounded uppercase tracking-wider shadow-2xl hover:shadow-red-600/50 transition-all">
+              Book Now for 2026
             </Button>
           </Link>
         </div>
