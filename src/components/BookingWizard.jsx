@@ -72,31 +72,37 @@ export default function BookingWizard({ onClose }) {
     setIsSubmitting(true);
     
     try {
-      const response = await base44.functions.invoke('createWetravelBooking', {
+      // Store booking in Base44
+      const booking = await base44.entities.Booking.create({
         name: bookingData.name,
         email: bookingData.email,
-        phone: bookingData.phone,
+        phone: bookingData.phone || '',
         package: bookingData.packageType,
-        package_name: getPackageName(),
         nights: bookingData.nights,
         occupancy: bookingData.occupancy,
         guests: bookingData.guests,
         price_per_person: getPrice(),
         total_price: getTotalPrice(),
+        payment_status: 'pending',
+        status: 'pending',
       });
 
-      if (response.data.success && response.data.checkout_url) {
-        toast.success('Booking created! Redirecting to payment...');
-        // Redirect to WeTravel checkout
-        window.open(response.data.checkout_url, '_blank');
-        onClose();
-      } else {
-        toast.error('Failed to create booking. Please try again.');
-      }
+      // Build WeTravel checkout URL with pre-filled info
+      const wetravelUrl = new URL('https://gfxcursions.wetravel.com/trips/lost-in-st-lucia-gfx-20061731');
+      wetravelUrl.searchParams.set('email', bookingData.email);
+      wetravelUrl.searchParams.set('first_name', bookingData.name.split(' ')[0]);
+      wetravelUrl.searchParams.set('last_name', bookingData.name.split(' ').slice(1).join(' ') || bookingData.name.split(' ')[0]);
+
+      toast.success('Redirecting to payment...');
+      
+      // Redirect to WeTravel
+      setTimeout(() => {
+        window.location.href = wetravelUrl.toString();
+      }, 500);
+      
     } catch (error) {
       console.error('Booking error:', error);
       toast.error('Something went wrong. Please try again or contact support.');
-    } finally {
       setIsSubmitting(false);
     }
   };
