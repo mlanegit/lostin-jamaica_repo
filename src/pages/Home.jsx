@@ -165,6 +165,74 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Testimonials Section */}
+      <section className="px-6 py-20 bg-zinc-900">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-5xl md:text-6xl font-black text-white text-center mb-4 tracking-tight">
+            WHAT TRAVELERS <span className="text-yellow-400">SAY</span>
+          </h2>
+          <p className="text-center text-gray-400 mb-12 text-lg">From previous Lost in St. Lucia retreats</p>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            <Card className="bg-black border-green-600/30">
+              <CardContent className="pt-6">
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+                <p className="text-gray-300 mb-4 italic">
+                  "This was an amazing experience! The resort was beautiful, the events were well organized, and I met so many wonderful people. Already planning to come back next year!"
+                </p>
+                <p className="text-white font-bold">- Traveler Review</p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-black border-green-600/30">
+              <CardContent className="pt-6">
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+                <p className="text-gray-300 mb-4 italic">
+                  "Best group trip I've ever been on! The all-inclusive setup was perfect, the boat day was incredible, and the nightlife was unmatched. GFX knows how to throw a retreat!"
+                </p>
+                <p className="text-white font-bold">- Traveler Review</p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-black border-green-600/30">
+              <CardContent className="pt-6">
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+                <p className="text-gray-300 mb-4 italic">
+                  "From the moment we arrived until we left, everything was top tier. The food, entertainment, excursions - all exceeded expectations. Can't wait for Jamaica!"
+                </p>
+                <p className="text-white font-bold">- Traveler Review</p>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="text-center mt-12">
+            <div className="inline-flex items-center gap-3 bg-black border border-green-600/30 rounded-lg px-8 py-4">
+              <div className="flex gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-6 h-6 fill-yellow-400 text-yellow-400" />
+                ))}
+              </div>
+              <div className="text-left">
+                <p className="text-white font-black text-2xl">5.0 Rating</p>
+                <p className="text-gray-400 text-sm">Based on 43+ reviews</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="px-6 py-20 bg-gradient-to-b from-zinc-900 to-black">
         <div className="max-w-4xl mx-auto text-center">
