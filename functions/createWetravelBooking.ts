@@ -52,8 +52,8 @@ Deno.serve(async (req) => {
     const wetravelLead = await wetravelResponse.json();
     console.log('WeTravel Lead Created:', wetravelLead);
     
-    // Generate checkout URL for the WeTravel trip
-    const checkoutUrl = `https://gfxcursions.wetravel.com/trips/lost-in-st-lucia-gfx-${WETRAVEL_TRIP_ID}?email=${encodeURIComponent(bookingData.email)}&first_name=${encodeURIComponent(bookingData.name.split(' ')[0])}`;
+    // Generate checkout URL for the WeTravel trip with pre-filled lead info
+    const checkoutUrl = `https://gfxcursions.wetravel.com/trips/test-lost-in-jamaica-gfx-${WETRAVEL_TRIP_ID}/checkout?lead_id=${wetravelLead.id || wetravelLead.lead_id}`;
     
     // Store booking in Base44
     const booking = await base44.asServiceRole.entities.Booking.create({
