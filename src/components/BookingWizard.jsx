@@ -61,7 +61,7 @@ export default function BookingWizard({ onClose }) {
   };
 
   const handleNext = () => {
-    if (step < 3) setStep(step + 1);
+    if (step < 4) setStep(step + 1);
   };
 
   const handleBack = () => {
