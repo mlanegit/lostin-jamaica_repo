@@ -2,17 +2,24 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Check, ChevronRight, ChevronLeft, Users, Calendar, DollarSign } from 'lucide-react';
+import { Check, ChevronRight, ChevronLeft, Users, Calendar, DollarSign, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { base44 } from '@/api/base44Client';
+import { toast } from 'sonner';
 
 export default function BookingWizard({ onClose }) {
   const [step, setStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [bookingData, setBookingData] = useState({
     packageType: '',
     nights: '',
     occupancy: '',
     guests: 1,
+    name: '',
+    email: '',
+    phone: '',
   });
 
   const packages = [
@@ -61,14 +68,43 @@ export default function BookingWizard({ onClose }) {
     if (step > 1) setStep(step - 1);
   };
 
-  const handleBookNow = () => {
-    // Redirect to wetravel booking page
-    window.open('https://gfxcursions.wetravel.com/trips/lost-in-st-lucia-gfx-20061731', '_blank');
+  const handleBookNow = async () => {
+    setIsSubmitting(true);
+    
+    try {
+      const response = await base44.functions.invoke('createWetravelBooking', {
+        name: bookingData.name,
+        email: bookingData.email,
+        phone: bookingData.phone,
+        package: bookingData.packageType,
+        package_name: getPackageName(),
+        nights: bookingData.nights,
+        occupancy: bookingData.occupancy,
+        guests: bookingData.guests,
+        price_per_person: getPrice(),
+        total_price: getTotalPrice(),
+      });
+
+      if (response.data.success && response.data.checkout_url) {
+        toast.success('Booking created! Redirecting to payment...');
+        // Redirect to WeTravel checkout
+        window.open(response.data.checkout_url, '_blank');
+        onClose();
+      } else {
+        toast.error('Failed to create booking. Please try again.');
+      }
+    } catch (error) {
+      console.error('Booking error:', error);
+      toast.error('Something went wrong. Please try again or contact support.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const canProceed = () => {
     if (step === 1) return bookingData.packageType && bookingData.nights;
     if (step === 2) return bookingData.occupancy;
+    if (step === 3) return bookingData.name && bookingData.email;
     return true;
   };
 
@@ -100,14 +136,14 @@ export default function BookingWizard({ onClose }) {
             
             {/* Progress Steps */}
             <div className="flex items-center gap-4 mt-6">
-              {[1, 2, 3].map((num) => (
+              {[1, 2, 3, 4].map((num) => (
                 <div key={num} className="flex items-center flex-1">
                   <div className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${
                     step >= num ? 'bg-green-600 border-green-600 text-white' : 'border-zinc-700 text-gray-500'
                   } font-bold`}>
                     {step > num ? <Check className="w-5 h-5" /> : num}
                   </div>
-                  {num < 3 && (
+                  {num < 4 && (
                     <div className={`flex-1 h-1 mx-2 ${
                       step > num ? 'bg-green-600' : 'bg-zinc-700'
                     }`} />
@@ -116,9 +152,10 @@ export default function BookingWizard({ onClose }) {
               ))}
             </div>
             <div className="flex justify-between mt-2 text-xs font-bold uppercase">
-              <span className={step >= 1 ? 'text-green-500' : 'text-gray-500'}>Select Package</span>
-              <span className={step >= 2 ? 'text-green-500' : 'text-gray-500'}>Guests & Nights</span>
-              <span className={step >= 3 ? 'text-green-500' : 'text-gray-500'}>Summary</span>
+              <span className={step >= 1 ? 'text-green-500' : 'text-gray-500'}>Package</span>
+              <span className={step >= 2 ? 'text-green-500' : 'text-gray-500'}>Occupancy</span>
+              <span className={step >= 3 ? 'text-green-500' : 'text-gray-500'}>Your Info</span>
+              <span className={step >= 4 ? 'text-green-500' : 'text-gray-500'}>Confirm</span>
             </div>
           </CardHeader>
 
@@ -285,10 +322,67 @@ export default function BookingWizard({ onClose }) {
                 </motion.div>
               )}
 
-              {/* Step 3: Summary */}
+              {/* Step 3: Contact Information */}
               {step === 3 && (
                 <motion.div
                   key="step3"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="space-y-6"
+                >
+                  <h3 className="text-white font-black text-xl uppercase mb-4">
+                    Your Information
+                  </h3>
+
+                  <div className="space-y-4">
+                    <div>
+                      <Label className="text-white font-bold mb-2 block uppercase text-sm">
+                        Full Name *
+                      </Label>
+                      <Input
+                        value={bookingData.name}
+                        onChange={(e) => setBookingData({ ...bookingData, name: e.target.value })}
+                        className="bg-black border-zinc-700 text-white"
+                        placeholder="John Doe"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="text-white font-bold mb-2 block uppercase text-sm">
+                        Email Address *
+                      </Label>
+                      <Input
+                        type="email"
+                        value={bookingData.email}
+                        onChange={(e) => setBookingData({ ...bookingData, email: e.target.value })}
+                        className="bg-black border-zinc-700 text-white"
+                        placeholder="john@example.com"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="text-white font-bold mb-2 block uppercase text-sm">
+                        Phone Number
+                      </Label>
+                      <Input
+                        type="tel"
+                        value={bookingData.phone}
+                        onChange={(e) => setBookingData({ ...bookingData, phone: e.target.value })}
+                        className="bg-black border-zinc-700 text-white"
+                        placeholder="+1 (555) 123-4567"
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Step 4: Summary */}
+              {step === 4 && (
+                <motion.div
+                  key="step4"
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
@@ -299,6 +393,22 @@ export default function BookingWizard({ onClose }) {
                   </h3>
 
                   <div className="bg-black rounded-lg p-6 space-y-4 border border-zinc-800">
+                    <div className="flex items-center justify-between pb-4 border-b border-zinc-800">
+                      <div className="flex items-center gap-3">
+                        <Users className="w-5 h-5 text-green-500" />
+                        <span className="text-gray-400">Guest Name</span>
+                      </div>
+                      <span className="text-white font-bold">{bookingData.name}</span>
+                    </div>
+
+                    <div className="flex items-center justify-between pb-4 border-b border-zinc-800">
+                      <div className="flex items-center gap-3">
+                        <Calendar className="w-5 h-5 text-green-500" />
+                        <span className="text-gray-400">Email</span>
+                      </div>
+                      <span className="text-white font-bold">{bookingData.email}</span>
+                    </div>
+
                     <div className="flex items-center justify-between pb-4 border-b border-zinc-800">
                       <div className="flex items-center gap-3">
                         <Calendar className="w-5 h-5 text-green-500" />
@@ -359,12 +469,13 @@ export default function BookingWizard({ onClose }) {
                 onClick={step === 1 ? onClose : handleBack}
                 variant="outline"
                 className="border-zinc-700 text-white hover:bg-zinc-800"
+                disabled={isSubmitting}
               >
                 <ChevronLeft className="w-4 h-4 mr-2" />
                 {step === 1 ? 'Cancel' : 'Back'}
               </Button>
 
-              {step < 3 ? (
+              {step < 4 ? (
                 <Button
                   onClick={handleNext}
                   disabled={!canProceed()}
@@ -376,10 +487,20 @@ export default function BookingWizard({ onClose }) {
               ) : (
                 <Button
                   onClick={handleBookNow}
+                  disabled={isSubmitting}
                   className="bg-green-600 hover:bg-green-700 text-white font-black uppercase px-8"
                 >
-                  Complete Booking on WeTravel
-                  <ChevronRight className="w-4 h-4 ml-2" />
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Creating Booking...
+                    </>
+                  ) : (
+                    <>
+                      Complete Payment
+                      <ChevronRight className="w-4 h-4 ml-2" />
+                    </>
+                  )}
                 </Button>
               )}
             </div>
